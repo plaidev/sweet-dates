@@ -1,0 +1,22 @@
+{
+  "name": "sweet-dates",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Naoto Kato <naoto.kato@plaid.co.jp>",
+  "license": "MIT",
+  "dependencies": {
+    "sugar-date": "^2.0.4",
+    "timezone-js": "^0.4.13"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
+}
