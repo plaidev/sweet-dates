@@ -75,6 +75,15 @@ describe('Basic:', function() {
       assert.isOk(createDate('today').is(d.getTime(), 1000))
     })
 
+    it('can create: with locale', function() {
+      // periodic relative
+      assert.property(createDate('今日', 'ja'), 'long')
+      assert.property(createDate('今日', 'ja'), 'getTime')
+      assert.isString(createDate('今日', 'ja').long('ja'))
+      const d = _genUTCToday()
+      assert.isOk(createDate('今日', 'ja').is(d.getTime(), 1000))
+    })
+
   })
 
   describe('service timezone', function() {
@@ -128,6 +137,13 @@ describe('Basic:', function() {
       assert.isString(createDate('今日', {serviceTimezone: true}).long('ja'))
     })
 
+    it('can create: with locale', function() {
+      // periodic relative
+      assert.property(createDate('today', 'en', {serviceTimezone: true}), 'long')
+      assert.property(createDate('today', 'en', {serviceTimezone: true}), 'getTime')
+      assert.isString(createDate('today', 'en', {serviceTimezone: true}).long('ja'))
+    })
+
     it('can create: clone', function() {
       // now
       assert.property(createDate(createDate({serviceTimezone: true})), 'long')
@@ -156,6 +172,7 @@ describe('Basic:', function() {
       // 若干直感的でないが、isは異なるtimezone間の同時刻（3:00 UTC == 3:00 JST）をtrueとする
       // また、system timezoneで判定される
       assert.isOk(createDate({serviceTimezone: true}).is(new Date().getTime() + 9*60*60*1000, 1000))
+      assert.isOk(createDate('1 hour ago', 'en', {serviceTimezone: true}).is(new Date().getTime() + (9-1)*60*60*1000, 1000))
       assert.isOk(createDate('一時間前', {serviceTimezone: true}).is(new Date().getTime() + (9-1)*60*60*1000, 1000))
 
       let d = _genUTCToday()

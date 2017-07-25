@@ -101,6 +101,7 @@ exports.setSystemTimezone = function(timezone) {
 exports.createDate = function createDate(...args) {
   let date;
   let dateFormat;
+  let _locale;
 
   if (args.length > 0 && args[0].getTime) {
     dateFormat = args.shift().getTime()
@@ -115,12 +116,17 @@ exports.createDate = function createDate(...args) {
     dateFormat = (new Date()).getTime()
   }
 
+  if (_isString(args[0])) {
+    _locale = args.shift()
+  }
+
   const {localization, serviceTimezone} = Object.assign({
     localization: {},
     serviceTimezone: false
   }, ...args)
 
-  const {locale, timezone} = getServiceSettings(localization)
+  let {locale, timezone} = getServiceSettings(localization)
+  if (_locale) locale = _locale;
 
   if (serviceTimezone) {
     // 無理やり切り替える
