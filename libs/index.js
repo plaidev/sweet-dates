@@ -10,6 +10,8 @@ const _timezonedDateClasses = {
   GMT: buildTimezonedDate('GMT')
 }
 
+let _useServiceTimezoneByDefault = false
+
 let _systemTimezone = 'GMT'
 let _systemTimezonedDateClass = _timezonedDateClasses.GMT
 
@@ -98,6 +100,10 @@ exports.setSystemTimezone = function(timezone) {
   _systemTimezonedDateClass = getTimezonedClass(timezone)
 }
 
+exports.setUseServiceTimezoneByDefault = function(f) {
+  _useServiceTimezoneByDefault = f
+}
+
 exports.createDate = function createDate(...args) {
   let date;
   let dateFormat;
@@ -122,7 +128,7 @@ exports.createDate = function createDate(...args) {
 
   const {localization, serviceTimezone} = Object.assign({
     localization: {},
-    serviceTimezone: false
+    serviceTimezone: _useServiceTimezoneByDefault
   }, ...args)
 
   let {locale, timezone} = getServiceSettings(localization)

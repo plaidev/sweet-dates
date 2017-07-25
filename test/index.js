@@ -1,5 +1,5 @@
 const assert = require('chai').assert
-const {createDate, setDefaultLocalization, setSystemTimezone} = require('../libs')
+const {createDate, setDefaultLocalization, setUseServiceTimezoneByDefault, setSystemTimezone} = require('../libs')
 
 before(function() {
   setSystemTimezone('GMT') // default is GMT
@@ -84,6 +84,37 @@ describe('Basic:', function() {
       assert.isOk(createDate('今日', 'ja').is(d.getTime(), 1000))
     })
 
+  })
+
+  describe('settings', function() {
+    describe('setUseServiceTimezoneByDefault', function() {
+      before(function() {
+        setDefaultLocalization({
+          locale: 'ja',
+          timezone: 'Asia/Tokyo'
+        })
+      })
+
+      after(function() {
+        setUseServiceTimezoneByDefault(false)
+      })
+
+      it('not use service timezone by default', function() {
+        setUseServiceTimezoneByDefault(false)
+        assert.equal(createDate().getTimezoneOffset(), 0)
+        let diff;
+        diff = Math.abs(createDate('今日').getTime() - _genUTCToday().getTime())
+        assert.isOk(diff < 1000)
+      })
+
+      it('use service timezone by default', function() {
+        setUseServiceTimezoneByDefault(true)
+        assert.equal(createDate().getTimezoneOffset(), -540)
+        let diff;
+        diff = Math.abs(createDate('今日').getTime() - _genUTCToday().getTime())
+        assert.isNotOk(diff < 1000)
+      })
+    })
   })
 
   describe('service timezone', function() {
