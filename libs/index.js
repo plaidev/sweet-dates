@@ -84,16 +84,14 @@ function getServiceSettings(localization={}) {
 function createDateOfServiceTimezone(dateFormat, locale, timezone) {
   const _Date = getTimezonedClass(timezone)
   const fromUTC = _isString(dateFormat) ? false : true
-  const _d = Sugar.Date.create(dateFormat, locale, {fromUTC})
+  const d = Sugar.Date.create(dateFormat, locale, {fromUTC})
   // console.log('ServiceTime', _d.long(), _d.getTime(), locale, timezone, fromUTC, dateFormat)
-  const d = new _Date(_d.getTime())
   return d
 }
 
 function createDateOfSystemTimezone(dateFormat, locale) {
-  const _d = Sugar.Date.create(dateFormat, locale, {fromUTC: true})
+  const d = Sugar.Date.create(dateFormat, locale, {fromUTC: true})
   // console.log('SystemTime', _d.long(), _d.getTime(), locale, dateFormat)
-  const d = new _systemTimezonedDateClass(_d.getTime())
   return d
 }
 
@@ -151,12 +149,9 @@ function get(origGet, ...args) {
     _currentTimezonedDateClass = getTimezonedClass(timezone)
     date = origGet.call(this, dateFormat, locale)
     _currentTimezonedDateClass = bak
-    const _Date = getTimezonedClass(timezone)
-    // date = new _Date(date)
   }
   else {
     date = origGet.call(this, dateFormat, locale)
-    // date = new _systemTimezonedDateClass(date)
   }
 
   return date

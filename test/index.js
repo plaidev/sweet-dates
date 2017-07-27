@@ -273,7 +273,7 @@ describe('Basic:', function() {
     })
 
     it('get', function() {
-      console.log('now', createDate().get())
+      console.log('now', createDate().get().short())
       console.log('get 明日', createDate().get('明日', 'ja').short())
       console.log('get 今日', createDate().get('今日', 'ja').short())
       console.log('get 明後日', createDate().get('明日', 'ja').get('明日', 'ja').short())

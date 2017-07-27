@@ -1,4 +1,4 @@
-const Sugar = require('sugar-date')
+const Sugar = require('../../vendors/sugar-custom')
 
 /*
  * Japanese locale definition.
