@@ -1,4 +1,4 @@
-const Sugar = require('sugar-date')
+const Sugar = require('../vendors/sugar-custom')
 require('./locales/ja')
 const timezoneJS = require('timezone-js')
 const path = require('path')
@@ -152,11 +152,11 @@ function get(origGet, ...args) {
     date = origGet.call(this, dateFormat, locale)
     _currentTimezonedDateClass = bak
     const _Date = getTimezonedClass(timezone)
-    date = new _Date(date)
+    // date = new _Date(date)
   }
   else {
     date = origGet.call(this, dateFormat, locale)
-    date = new _systemTimezonedDateClass(date)
+    // date = new _systemTimezonedDateClass(date)
   }
 
   return date

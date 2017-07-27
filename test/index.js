@@ -209,7 +209,7 @@ describe('Basic:', function() {
       let d = _genUTCToday()
 
       // periodic relative
-      if (d.getUTCHours() < 15) {
+      if (new Date().getUTCHours() < 15) {
         assert.isOk(createDate('今日', {serviceTimezone: true}).is(createDate('今日')))
 
         assert.equal(createDate('今日', {serviceTimezone: true}).getTime(), d.getTime() - 9*60*60*1000)
