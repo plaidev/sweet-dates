@@ -267,4 +267,18 @@ describe('Basic:', function() {
 
   })
 
+  describe('instance method', function() {
+    before(function() {
+      setUseServiceTimezoneByDefault(true)
+    })
+
+    it('get', function() {
+      console.log('now', createDate().get())
+      console.log('get 明日', createDate().get('明日', 'ja').short())
+      console.log('get 今日', createDate().get('今日', 'ja').short())
+      console.log('get 明後日', createDate().get('明日', 'ja').get('明日', 'ja').short())
+      console.log('get 8/30', createDate('8月', 'ja').get('30日', 'ja').short())
+
+    })
+  })
 })

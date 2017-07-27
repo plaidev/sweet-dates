@@ -42,7 +42,15 @@ function mixInSugar(target) {
     if (!methods.hasOwnProperty(key)) continue;
     const m = methods[key];
     if (m.instance && !target[key]) {
-      target[key] = m.instance;
+      if (true && key === 'get') {
+        {
+          const orig = m.instance
+          target[key] = function(...args) { return get.call(this, orig, ...args) }
+        }
+      }
+      else {
+        target[key] = m.instance;
+      }
     }
   }
 }
@@ -103,6 +111,57 @@ exports.setSystemTimezone = function(timezone) {
 exports.setUseServiceTimezoneByDefault = function(f) {
   _useServiceTimezoneByDefault = f
 }
+
+// TODO: refactoring
+function get(origGet, ...args) {
+  let date;
+  let dateFormat;
+  let _locale;
+
+  if (args.length > 0 && args[0].getTime) {
+    dateFormat = args.shift().getTime()
+  }
+  else if (_isString(args[0])) {
+    dateFormat = args.shift()
+  }
+  else if (_isNumber(args[0])) {
+    dateFormat = args.shift()
+  }
+  else {
+    dateFormat = (new Date()).getTime()
+  }
+
+  if (_isString(args[0])) {
+    _locale = args.shift()
+  }
+
+  const {localization, serviceTimezone} = Object.assign({
+    localization: {},
+    serviceTimezone: _useServiceTimezoneByDefault
+  }, ...args)
+
+  let {locale, timezone} = getServiceSettings(localization)
+  if (_locale) locale = _locale;
+
+  if (serviceTimezone) {
+    // 無理やり切り替える
+    // javascriptはシングルスレッドのなので、
+    // 復帰処理まで一貫して行われることは一応保証されている
+    const bak = _currentTimezonedDateClass
+    _currentTimezonedDateClass = getTimezonedClass(timezone)
+    date = origGet.call(this, dateFormat, locale)
+    _currentTimezonedDateClass = bak
+    const _Date = getTimezonedClass(timezone)
+    date = new _Date(date)
+  }
+  else {
+    date = origGet.call(this, dateFormat, locale)
+    date = new _systemTimezonedDateClass(date)
+  }
+
+  return date
+}
+
 
 exports.createDate = function createDate(...args) {
   let date;
