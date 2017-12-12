@@ -1,10 +1,11 @@
 const Sugar = require('../vendors/sugar-custom')
 require('./locales/ja')
 const timezoneJS = require('timezone-js')
-const path = require('path')
+const tzdata = require('tzdata')
 
-timezoneJS.timezone.zoneFileBasePath = path.join(__dirname, '../tz')
-timezoneJS.timezone.init()
+var _tz = timezoneJS.timezone;
+_tz.loadingScheme = _tz.loadingSchemes.MANUAL_LOAD;
+_tz.loadZoneDataFromObject(tzdata);
 
 const _timezonedDateClasses = {
   GMT: buildTimezonedDate('GMT')

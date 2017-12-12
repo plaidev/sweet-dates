@@ -12,7 +12,8 @@
   "author": "Naoto Kato <naoto.kato@plaid.co.jp>",
   "license": "MIT",
   "dependencies": {
-    "timezone-js": "^0.4.13"
+    "timezone-js": "^0.4.13",
+    "tzdata": "^1.0.8"
   },
   "devDependencies": {
     "chai": "^4.1.0",
