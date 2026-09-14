@@ -1,5 +1,5 @@
 {
-  "name": "sweet-dates",
+  "name": "@plaidev/sweet-dates",
   "version": "0.1.5",
   "description": "",
   "main": "libs/index.js",
@@ -11,6 +11,10 @@
   },
   "author": "Naoto Kato <naoto.kato@plaid.co.jp>",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://asia-northeast1-npm.pkg.dev/develop-karte-io-systems/plaid-private-npm-registry/",
+    "access": "restricted"
+  },
   "dependencies": {
     "timezone-js": "^0.4.13"
   },
